@@ -1,0 +1,19 @@
+version: "3.3"
+services:
+  master:
+    image: lizardfs-master
+    build: ./lizardfs-master
+    volumes:
+      - ./volumes/lizardfs-master/etc/lizardfs:/etc/lizardfs/
+      - ./volumes/lizardfs-master/var/lib/lizardfs/:/var/lib/lizardfs/
+      - ./volumes/lizardfs-master/var/log/:/var/log/
+
+  cgi:
+    image: lizardfs-cgiserver
+    build: ./lizardfs-cgiserver
+    ports:
+      - "9425:9425"
+    links:
+      - master
+    external_links:
+      - "master:mfsmaster" #cgi has HARDcoded mfsmaster as default host to monitor
