@@ -15,4 +15,5 @@ clean:
 	rm -f ./volumes/lizardfs-master/var/log/syslog
 	rm -f ./volumes/lizardfs-chunkserver/var/log/syslog
 	rm -f ./volumes/lizardfs-chunkserver/var/lib/lizardfs/.mfschunkserver.lock
+	rm -f ./volumes/lizardfs-chunkserver/hdd/.lock
 	echo -n "MFSM NEW" > ./volumes/lizardfs-master/var/lib/lizardfs/metadata.mfs
