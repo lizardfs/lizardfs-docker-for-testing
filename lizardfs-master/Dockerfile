@@ -1,4 +1,5 @@
-FROM ubuntu:20.04
+ARG BASE_IMAGE
+FROM $BASE_IMAGE
 LABEL maintainer="contact@lizardfs.org"
 RUN apt-get update
 RUN apt-get install -y lizardfs-master rsyslog

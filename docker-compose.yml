@@ -2,7 +2,10 @@ version: "3.3"
 services:
   master:
     image: lizardfs-master
-    build: ./lizardfs-master
+    build: 
+      context: ./lizardfs-master
+      args:
+        - BASE_IMAGE=$BASE_IMAGE
     volumes:
       - ./volumes/lizardfs-master/etc/lizardfs:/etc/lizardfs/
       - ./volumes/lizardfs-master/var/lib/lizardfs/:/var/lib/lizardfs/
@@ -10,7 +13,10 @@ services:
 
   cgi:
     image: lizardfs-cgiserver
-    build: ./lizardfs-cgiserver
+    build:
+      context: ./lizardfs-cgiserver
+      args:
+        - BASE_IMAGE=$BASE_IMAGE
     ports:
       - "9425:9425"
     links:
