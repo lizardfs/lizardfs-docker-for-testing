@@ -21,3 +21,17 @@ services:
       - "9425:9425"
     links:
       - master:mfsmaster
+
+  chunkserver:
+    image: lizardfs-chunkserver
+    build:
+      context: ./lizardfs-chunkserver
+      args:
+        - BASE_IMAGE=$BASE_IMAGE
+    volumes:
+      - ./volumes/lizardfs-chunkserver/etc/lizardfs:/etc/lizardfs/
+      - ./volumes/lizardfs-chunkserver/var/log/:/var/log/
+      - ./volumes/lizardfs-chunkserver/var/lib/lizardfs:/var/lib/lizardfs
+      - ./volumes/lizardfs-chunkserver/hdd:/hdd
+    links:
+      - master:mfsmaster
