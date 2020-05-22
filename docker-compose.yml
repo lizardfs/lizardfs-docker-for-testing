@@ -2,10 +2,12 @@ version: "3.3"
 services:
   master:
     image: lizardfs-master
-    build: 
+    build:
       context: ./lizardfs-master
       args:
         - BASE_IMAGE=$BASE_IMAGE
+    ports:
+      - "9421:9421"
     volumes:
       - ./volumes/lizardfs-master/etc/lizardfs:/etc/lizardfs/
       - ./volumes/lizardfs-master/var/lib/lizardfs/:/var/lib/lizardfs/
@@ -35,3 +37,24 @@ services:
       - ./volumes/lizardfs-chunkserver/hdd:/hdd
     links:
       - master:mfsmaster
+    ports:
+      - "9422:9422"
+
+  client:
+    image: lizardfs-client
+    devices:
+      - /dev/fuse
+    cap_add: 
+      - SYS_ADMIN
+    security_opt: 
+      - apparmor:unconfined
+    build:
+      context: ./lizardfs-client
+      args:
+        - BASE_IMAGE=$BASE_IMAGE
+    links:
+      - master
+    depends_on:
+      - master
+    volumes: 
+      - ./volumes/lizardfs-client/var/log/:/var/log/
