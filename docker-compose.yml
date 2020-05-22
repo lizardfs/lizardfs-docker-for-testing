@@ -52,6 +52,7 @@ services:
       context: ./lizardfs-client
       args:
         - BASE_IMAGE=$BASE_IMAGE
+    command: /mnt/lizardfs -H master -P 9421 -S /
     links:
       - master
     depends_on:

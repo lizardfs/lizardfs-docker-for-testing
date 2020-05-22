@@ -8,9 +8,10 @@ function start_syslog() {
 }
 
 function start_client() {
-    mkdir /lizard
-    lfsmount /lizard -H master -P 9421 -S /
+    MOUNTPOINT=${1}
+    mkdir -p ${MOUNTPOINT}
+    lfsmount ${@}
 }
 
-start_client
+start_client ${@}
 start_syslog
