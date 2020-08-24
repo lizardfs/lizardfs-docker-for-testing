@@ -1,11 +1,4 @@
 #! /bin/bash
-function start_syslog() {
-local log_file="/var/log/syslog"
-  touch ${log_file}
-  chown syslog:syslog ${log_file}
-  rsyslogd
-  tail -F -n 0 ${log_file} &
-}
 
 metadata_dir="/var/lib/lizardfs/"
 function fix_metadata() {
@@ -21,6 +14,5 @@ function start_master() {
   lfsmaster -d -u start
 }
 
-start_syslog
 fix_metadata
 start_master
