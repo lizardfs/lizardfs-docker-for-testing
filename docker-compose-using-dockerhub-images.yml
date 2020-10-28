@@ -1,0 +1,49 @@
+version: "3.3"
+services:
+  master:
+    image: alephengineering/lizardfs-master:for-testing-ubuntu_20.04_00
+    ports:
+      - "19421:9421"
+    volumes:
+      - ./volumes/lizardfs-master/etc/lizardfs:/etc/lizardfs/
+      - ./volumes/lizardfs-master/var/lib/lizardfs/:/var/lib/lizardfs/
+      - ./volumes/lizardfs-master/var/log/:/var/log/
+
+  cgi:
+    image: alephengineering/lizardfs-cgiserver:for-testing-ubuntu_20.04_00
+    ports:
+      - "19425:9425"
+    links:
+      - master:mfsmaster
+
+  chunkserver:
+    image: alephengineering/lizardfs-chunkserver:for-testing-ubuntu_20.04_00
+    volumes:
+      - ./volumes/lizardfs-chunkserver/etc/lizardfs:/etc/lizardfs/
+      - ./volumes/lizardfs-chunkserver/var/log/:/var/log/
+      - ./volumes/lizardfs-chunkserver/var/lib/lizardfs:/var/lib/lizardfs
+      - ./volumes/lizardfs-chunkserver/hdd:/hdd
+    links:
+      - master:mfsmaster
+    ports:
+      - "19422:9422"
+
+  client:
+    image: alephengineering/lizardfs-client:for-testing-ubuntu_20.04_00
+    devices:
+      - /dev/fuse
+    cap_add: 
+      - SYS_ADMIN
+    security_opt: 
+      - apparmor:unconfined
+    build:
+      context: ./lizardfs-client
+      args:
+        - BASE_IMAGE=$BASE_IMAGE
+    command: /mnt/lizardfs -H master -P 9421 -S /
+    links:
+      - master
+    depends_on:
+      - master
+    volumes: 
+      - ./volumes/lizardfs-client/var/log/:/var/log/
