@@ -2,6 +2,7 @@ version: "3.3"
 services:
   master:
     image: lizardfs-master
+    container_name: "lizardfs-master"
     build:
       context: ./lizardfs-master
       args:
@@ -15,6 +16,7 @@ services:
 
   cgi:
     image: lizardfs-cgiserver
+    container_name: "lizardfs-cgiserver"
     build:
       context: ./lizardfs-cgiserver
       args:
@@ -26,6 +28,7 @@ services:
 
   chunkserver:
     image: lizardfs-chunkserver
+    container_name: "lizardfs-chunkserver"
     build:
       context: ./lizardfs-chunkserver
       args:
@@ -42,6 +45,7 @@ services:
 
   client:
     image: lizardfs-client
+    container_name: "lizardfs-client"
     devices:
       - /dev/fuse
     cap_add: 
